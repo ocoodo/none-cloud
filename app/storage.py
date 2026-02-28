@@ -30,14 +30,16 @@ class S3Storage:
     async def get_object_link(
         self, 
         object_name: str, 
-        expires_in: int = 15 * 60
+        original_name: str,
+        expires_in: int = 60
     ):
         async with self.session.client('s3', endpoint_url=self.endpoint) as s3:
             url = await s3.generate_presigned_url(
                 ClientMethod='get_object',
                 Params={
                     'Bucket': self.bucket,
-                    'Key': object_name
+                    'Key': object_name,
+                    'ResponseContentDisposition': f'attachment; filename="{original_name}"'
                 },
                 ExpiresIn=expires_in
             )

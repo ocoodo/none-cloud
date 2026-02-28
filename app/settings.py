@@ -7,6 +7,7 @@ env_path = Path(__file__).resolve().parent.parent / '.env'
 
 
 class Settings(BaseSettings):
+    db_url: str
     endpoint: str
     access_key: str
     secret_key: str
